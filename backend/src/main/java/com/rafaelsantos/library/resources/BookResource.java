@@ -2,6 +2,8 @@ package com.rafaelsantos.library.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +41,7 @@ public class BookResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<BookDTO> insert(@RequestBody BookDTO dto){
+	public ResponseEntity<BookDTO> insert(@Valid @RequestBody BookDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
@@ -48,7 +50,7 @@ public class BookResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<BookDTO> update(@PathVariable Long id, @RequestBody BookDTO dto){
+	public ResponseEntity<BookDTO> update(@PathVariable Long id, @Valid @RequestBody BookDTO dto){
 		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}

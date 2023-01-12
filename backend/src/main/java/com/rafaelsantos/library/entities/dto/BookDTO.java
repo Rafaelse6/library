@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
 import com.rafaelsantos.library.entities.Book;
 import com.rafaelsantos.library.entities.Category;
 
@@ -13,8 +16,13 @@ public class BookDTO implements Serializable{
 		
 	private Long id;
 	
+	@Size(min = 2, max = 60, message = "It must have between 2 and 60 characters")
 	private String author;
+	
+	@Size(min = 2, max = 60, message = "It must have between 2 and 60 characters")
 	private String name;
+	
+	@Positive(message = "The price must be positive")
 	private Double price;
 	private Integer edition;
 	private String imgUrl;

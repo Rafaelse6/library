@@ -1,36 +1,31 @@
 package com.rafaelsantos.library.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable{
+@Table(name = "tb_role")
+public class Role implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
-	
-	@ManyToMany(mappedBy = "categories")
-	private Set<Book> books = new HashSet<>();
-	
-	public Category() {}
+	private String authority;
 
-	public Category(Long id, String name) {
+	public Role() {}
+
+	public Role(Long id, String authority) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.authority = authority;
 	}
 
 	public Long getId() {
@@ -41,16 +36,12 @@ public class Category implements Serializable{
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getAuthority() {
+		return authority;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<Book> getBooks() {
-		return books;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 	@Override
@@ -66,7 +57,7 @@ public class Category implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Role other = (Role) obj;
 		return Objects.equals(id, other.id);
 	}
 }

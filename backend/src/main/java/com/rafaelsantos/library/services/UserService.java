@@ -18,6 +18,7 @@ import com.rafaelsantos.library.entities.User;
 import com.rafaelsantos.library.entities.dto.RoleDTO;
 import com.rafaelsantos.library.entities.dto.UserDTO;
 import com.rafaelsantos.library.entities.dto.UserInsertDTO;
+import com.rafaelsantos.library.entities.dto.UserUpdateDTO;
 import com.rafaelsantos.library.repositories.RoleRepository;
 import com.rafaelsantos.library.repositories.UserRepository;
 import com.rafaelsantos.library.services.exceptions.DatabaseException;
@@ -58,7 +59,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO update(Long id, UserDTO dto) {
+	public UserDTO update(Long id, UserUpdateDTO dto) {
 		try {
 			User entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);

@@ -22,15 +22,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 @Entity
 @Table(name = "tb_user")
-public class User implements UserDetails,Serializable {
-
+public class User implements UserDetails, Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String firstName;
 	private String lastName;
 	
@@ -44,7 +46,7 @@ public class User implements UserDetails,Serializable {
 			inverseJoinColumns = @JoinColumn(name="role_id")
 	)
 	private Set<Role> roles = new HashSet<>();
-
+	
 	public User() {}
 
 	public User(Long id, String firstName, String lastName, String email, String password) {
@@ -55,7 +57,7 @@ public class User implements UserDetails,Serializable {
 		this.email = email;
 		this.password = password;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -95,7 +97,7 @@ public class User implements UserDetails,Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -116,7 +118,8 @@ public class User implements UserDetails,Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
+	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
 				.collect(Collectors.toList());

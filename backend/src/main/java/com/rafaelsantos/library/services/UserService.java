@@ -33,29 +33,29 @@ import com.rafaelsantos.library.services.exceptions.ResourceNotFoundException;
 public class UserService implements UserDetailsService{
 	
 	private static Logger logger = LoggerFactory.getLogger(UserService.class);
-
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
+	
 	@Autowired
 	private UserRepository repository;
-
+	
 	@Autowired
 	private RoleRepository roleRepository;
-
+	
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAllPaged(Pageable pageable){
 		Page<User> list = repository.findAll(pageable);
 		return list.map(x -> new UserDTO(x));
 	}
-
+	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
 		Optional<User> obj = repository.findById(id);
 		User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new UserDTO(entity);
 	}
-
+	
 	@Transactional
 	public UserDTO insert(UserInsertDTO dto) {
 		User entity = new User();
@@ -76,7 +76,8 @@ public class UserService implements UserDetailsService{
 			throw new ResourceNotFoundException("Id not found " + id);
 		}
 	}
-
+	
+	
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -86,8 +87,9 @@ public class UserService implements UserDetailsService{
 		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}
+		
 	}
-
+	
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 		entity.setFirstName(dto.getFirstName());
 		entity.setLastName(dto.getLastName());
@@ -99,7 +101,7 @@ public class UserService implements UserDetailsService{
 			entity.getRoles().add(role);
 		}
 	}
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = repository.findByEmail(username);
